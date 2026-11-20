@@ -35,7 +35,7 @@ let sessionIdEnMemoria = null;
 ===================================== */
 
 function generarSessionId() {
-    if (crypto && typeof crypto.randomUUID === "function") {
+    if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
         return crypto.randomUUID();
     }
 
@@ -414,7 +414,7 @@ async function sendConsultation(message) {
     }, TIMEOUT_MS);
 
     try {
-        const respuesta = await fetch(WEBHOOK_URL, {
+        const respuesta = await fetch(WEBHOOK_URL.trim(), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -503,7 +503,7 @@ form.addEventListener("submit", async (event) => {
 
     if (!message) {
         setFeedback(
-            "Escribí tu consulta antes de enviarla.",
+            "Escribí una consulta antes de enviarla.",
             "error"
         );
         textarea.focus();
